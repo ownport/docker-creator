@@ -1,0 +1,5 @@
+NAME=oracle-java
+DESCRIPTION="Install Oracle Java: JDK, JRE, Server JRE"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

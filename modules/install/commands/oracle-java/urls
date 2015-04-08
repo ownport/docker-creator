@@ -1,0 +1,9 @@
+8u40|JRE|http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jre-8u40-linux-x64.tar.gz
+7u75|JRE|http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jre-7u75-linux-x64.tar.gz
+7u76|JRE|http://download.oracle.com/otn-pub/java/jdk/7u76-b13/jre-7u76-linux-x64.tar.gz
+7u75|JDK|http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.tar.gz
+7u76|JDK|http://download.oracle.com/otn-pub/java/jdk/7u76-b13/jdk-7u76-linux-x64.tar.gz
+8u40|JDK|http://download.oracle.com/otn-pub/java/jdk/8u40-b26/jdk-8u40-linux-x64.tar.gz
+7u75|Server-JRE|http://download.oracle.com/otn-pub/java/jdk/7u75-b13/server-jre-7u75-linux-x64.tar.gz
+7u76|Server-JRE|http://download.oracle.com/otn-pub/java/jdk/7u76-b13/server-jre-7u76-linux-x64.tar.gz
+8u40|Server-JRE|http://download.oracle.com/otn-pub/java/jdk/8u40-b26/server-jre-8u40-linux-x64.tar.gz

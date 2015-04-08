@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+JAVA_BUNDLE=${1}
+
+list_of_available_java() {
+    echo
+    echo "The list of available packages:"
+    cat ${RERUN_COMMAND_DIR%%/}/urls | sed "s/|/:/g" | cut -d$':' -f 1,2 | sed "s/^/  - /"    
+    echo
+}
+
+usage() {
+    echo "Error! Please specify Java version and type"
+    echo "usage: ./rerun install:oracle-java <version>:<type>"
+    echo "      for example: 7u75:JDK or 7u76:JRE or 8u40:Server-JRE"
+    list_of_available_java
+    exit 1
+}
+
+install_java_bundle() {
+
+    BUNDLE=${1}
+    URL=${2}
+    FILENAME=$(basename ${URL})
+    echo "- Installation of ${BUNDLE} (${URL})"  && \
+        wget -c --progress=dot:mega --no-check-certificate \
+            --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" \
+            ${URL} -O /tmp/${FILENAME} && \
+        echo "- Extracting ${FILENAME} ... " && \
+        tar --directory=/opt -xzf /tmp/${FILENAME} && \
+        echo "- Extracting ${FILENAME} completed" && \
+        rm /tmp/${FILENAME} && \
+        echo "- Installation completed"
+}
+ 
+[ -z ${JAVA_BUNDLE} ] && {
+    usage;
+} 
+
+JAVA_BUNDLE_FILTER=$(echo ${JAVA_BUNDLE} | sed "s/:/|/g" )
+JAVA_BUNDLE_URL=$(cat ${RERUN_COMMAND_DIR%%/}/urls | grep ${JAVA_BUNDLE_FILTER} | cut -d "|" -f 3 )
+
+[ ! -z ${JAVA_BUNDLE_URL} ] && {
+    install_java_bundle ${JAVA_BUNDLE} ${JAVA_BUNDLE_URL}    
+}
+
+
+
