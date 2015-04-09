@@ -6,7 +6,7 @@ WARNING! Experimental project. Please don't use it in production.
 
 Based on [rerun](https://github.com/rerun/rerun) framework. 
 
-## How to use (example)
+## How to use docker-creator into Dockerfile (example)
 
 ```
 FROM ubuntu:trusty
