@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+TOMCAT_VERSION=${1}
+
+TOMCAT_DIST_MASTER_URL="https://archive.apache.org/dist/tomcat/"
+
+list_of_available_versions() {
+    echo
+    echo "The list of available packages:"
+    
+    for major_version in $(wget -q -O- ${TOMCAT_DIST_MASTER_URL} | \
+                             grep -o -E 'href="tomcat-[0-9]/"' | \
+                             sed 's/"//g' | cut -d '=' -f2 )
+    do
+        echo -n "  ${major_version%%/}: "
+        for minor_version in $(wget -q -O- ${TOMCAT_DIST_MASTER_URL%%/}/${major_version} | \
+                                grep -o -E 'href="v[0-9].[0-9].[0-9]+/"' | sed 's/"//g' | cut -d v -f2 )
+        do
+            echo -n ${minor_version%%/} " "
+        done
+        echo
+    done
+
+    echo
+}
+
+usage() {
+    echo "Error! Please specify Tomcat version"
+    echo "usage: ./rerun install:tomcat <version>"
+    list_of_available_versions
+    exit 1
+}
+
+install() {
+
+    VERSION=${1}
+    URL=${2}
+    FILENAME=$(basename ${URL})
+
+    echo "- Installation of tomcat-${VERSION} (${URL})" && \
+        wget -c --progress=dot:mega --no-check-certificate --no-cookies ${URL} -O /tmp/${FILENAME} && \
+        echo "- Extracting ${FILENAME} ... " && \
+        tar --directory=/opt -xzf /tmp/${FILENAME} && \
+        echo "- Extracting ${FILENAME} completed" && \
+        rm /tmp/${FILENAME} && \
+        echo "- Installation completed"
+}
+ 
+[ -z ${TOMCAT_VERSION} ] && {
+    usage;
+} 
+
+MAJOR_VERSION=$(echo ${TOMCAT_VERSION} | cut -d . -f 1)
+MINOR_VERSION=$(echo ${TOMCAT_VERSION})
+
+( [ ! -z ${MAJOR_VERSION} ] && [ ! -z ${MINOR_VERSION} ] ) && {
+    install ${MINOR_VERSION} ${TOMCAT_DIST_MASTER_URL%%/}/tomcat-${MAJOR_VERSION%%/}/v${MINOR_VERSION%%/}/bin/apache-tomcat-${MINOR_VERSION}.tar.gz    
+}
+
+
+

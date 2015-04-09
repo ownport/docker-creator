@@ -1,0 +1,5 @@
+NAME=tomcat
+DESCRIPTION="Install Apache Tomcat"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=
