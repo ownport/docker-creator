@@ -8,7 +8,7 @@ Based on [rerun](https://github.com/rerun/rerun) framework.
 
 ## How to use (example)
 
-'''
+```
 FROM ubuntu:trusty
 
 RUN apt-get install -y wget
@@ -21,4 +21,4 @@ RUN /deploy/docker-creator-master/rerun misc:clean
 
 ENV JAVA_HOME /opt/jdk1.7.0_76
 ENV PATH $JAVA_HOME/bin:$PATH
-'''
+```
