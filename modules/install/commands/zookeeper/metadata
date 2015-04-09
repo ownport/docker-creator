@@ -1,0 +1,5 @@
+NAME=zookeeper
+DESCRIPTION="Install Apache Zookeeper"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

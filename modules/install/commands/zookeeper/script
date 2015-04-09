@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+VERSION=${1}
+
+DIST_MASTER_URL="http://archive.apache.org/dist/zookeeper/"
+COMPONENT_NAME="zookeeper"
+
+list_of_available_versions() {
+    echo
+    echo "The list of available packages:"
+    
+    for major_version in $(wget -q -O- ${DIST_MASTER_URL} | \
+                             grep -o -E 'href="zookeeper-[0-9].[0-9].[0-9]+/"' | \
+                             sed 's/"//g' | cut -d '-' -f2 )
+    do
+        echo -n "  ${major_version%%/}"
+    done
+
+    echo
+}
+
+usage() {
+    echo "Error! Please specify ZooKeeper version"
+    echo "usage: ./rerun install:zookeeper <version>"
+    list_of_available_versions
+    exit 1
+}
+
+install() {
+
+    _VERSION=${1}
+    _URL=${2}
+    _FILENAME=$(basename ${_URL})
+
+    echo "- Installation of ${COMPONENT_NAME}-${_VERSION} (${_URL})" && \
+        wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_URL} -O /tmp/${_FILENAME} && \
+        echo "- Extracting ${_FILENAME} ... " && \
+        tar --directory=/opt -xzf /tmp/${_FILENAME} && \
+        echo "- Extracting ${_FILENAME} completed" && \
+        rm /tmp/${_FILENAME} && \
+        echo "- Installation completed"
+}
+ 
+[ -z ${VERSION} ] && {
+    usage;
+} 
+
+MAJOR_VERSION=$(echo ${VERSION} | cut -d . -f 1)
+MINOR_VERSION=$(echo ${VERSION})
+
+( [ ! -z ${MAJOR_VERSION} ] && [ ! -z ${MINOR_VERSION} ] ) && {
+    install ${MINOR_VERSION} ${DIST_MASTER_URL%%/}/${COMPONENT_NAME}-${MINOR_VERSION%%/}/${COMPONENT_NAME}-${MINOR_VERSION}.tar.gz    
+}
+
+
+
