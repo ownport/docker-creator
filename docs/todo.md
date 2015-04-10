@@ -7,7 +7,7 @@
 - camel, cassandra, cayenne, chemistry, chukwa, clerezza, click, climate, cloudstack, cocoon, commons, continuum, cordova, couchdb, creadur, crunch, ctakes, curator, cxf
 - db, deltacloud, deltaspike, devicemap, directmemory, directory, drill
 - empire-db, esme, etch, excalibur
-- falcon, felix, flex, flink, flume, forrest
+- falcon, felix, flex, flink, forrest
 - geronimo, giraph, gora
 - hadoop, hama, harmony, hbase, helix, hive, hivemind, httpcomponents, httpd
 - ibatis, incubator, isis, jackrabbit, jakarta, james, java-repository, java, jclouds, jena, jmeter, jspwiki, juddi

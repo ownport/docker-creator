@@ -2,6 +2,7 @@
 
 ## Apache
 
+- flume 
 - tomcat
 - zookeeper
 

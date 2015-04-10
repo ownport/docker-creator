@@ -1,0 +1,5 @@
+NAME=flume
+DESCRIPTION="Install Apache flume"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=
