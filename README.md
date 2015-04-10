@@ -19,6 +19,9 @@ clean: "Clean temporary directories"
 $ ./rerun install
 Available commands in module, "install":
 oracle-java: "Install Oracle Java: JDK, JRE, Server JRE"
+tomcat: "Install Apache Tomcat"
+zookeeper: "Install Apache Zookeeper"
+
 ```
 
 ## How to use docker-creator into Dockerfile (example)
