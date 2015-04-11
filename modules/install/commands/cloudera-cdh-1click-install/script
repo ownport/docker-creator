@@ -46,7 +46,7 @@ case ${CDH_VERSION} in
 esac
 
  
-install ${PACKAGE_URL}
+install ${PACKAGE_URL} ${REPOSITORY_KEY_URL}
 
 
 
