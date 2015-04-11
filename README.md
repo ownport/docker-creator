@@ -20,6 +20,8 @@ clean: "Clean temporary directories"
 $
 $ ./rerun install
 Available commands in module, "install":
+cloudera-cdh: "Install Cloudera CDH4/5 components"
+flume: "Install Apache flume"
 oracle-java: "Install Oracle Java: JDK, JRE, Server JRE"
 tomcat: "Install Apache Tomcat"
 zookeeper: "Install Apache Zookeeper"
