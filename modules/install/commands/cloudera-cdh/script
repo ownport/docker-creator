@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+CDH_VERSION=${1}
+COMPONENT=${2}
+
+CDH4_DIST_MASTER_URL="http://archive.cloudera.com/cdh4/cdh/4/"
+CDH5_DIST_MASTER_URL="http://archive.cloudera.com/cdh5/cdh/5/"
+
+usage() {
+
+    echo "usage: ./rerun install:cloudera-cdh <cdh-version> <component-with-version>"
+    echo
+}
+
+list_files() {
+    local _FILES=$(wget -q -O- ${CDH4_DIST_MASTER_URL} | grep -o -E 'href=".+\.tar\.gz"' | \
+                    sed "s/\"//g" | cut -d= -f2  )
+    echo "${_FILES} $(wget -q -O- ${CDH5_DIST_MASTER_URL} | grep -o -E 'href=".+\.tar\.gz"' | \
+                    sed "s/\"//g" | cut -d= -f2  )"
+}
+
+list_available_cdh_versions() {
+
+    usage
+
+    local _FILES=$(list_files)
+
+    echo "The list of available CDH versions: "
+    for version in $(echo ${_FILES} | grep -o "cdh[0-9]\{1,2\}\.[0-9]\{1,2\}\.[0-9]\{1,2\}" | sort -u)
+    do
+        echo "  ${version}"
+    done 
+    echo
+}
+
+list_available_components() {
+
+    usage
+
+    local _CDH_VERSION=$1
+    local _FILES=$(list_files)    
+
+    echo "The list of available components for ${_CDH_VERSION} version:  "
+    # for component in $(for f in ${_FILES}; do echo $f | grep ${_CDH_VERSION} | sed "s/-${_CDH_VERSION}.tar.gz//"; done )
+    for component in $(for f in ${_FILES}; do echo $f | grep ${_CDH_VERSION}.tar.gz | sed "s/-${_CDH_VERSION}.tar.gz//" ; done )
+    do
+        echo "    ${component}"
+    done
+    echo
+}
+
+
+install() {
+
+    _COMPONENT=${1}
+    _URL=${2}
+    _FILENAME=$(basename ${_URL})
+
+    echo "- Installation of ${_COMPONENT} (${_URL})" && \
+            wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_URL} -O /tmp/${_FILENAME} && \
+            echo "- Extracting ${_FILENAME} ... " && \
+            tar --directory=/opt -xzf /tmp/${_FILENAME} && \
+            echo "- Extracting ${_FILENAME} completed" && \
+            rm /tmp/${_FILENAME} && \
+            echo "- Installation completed"
+}
+
+[ -z ${CDH_VERSION} ] && {
+    list_available_cdh_versions
+    exit 1
+}
+ 
+[ -z ${COMPONENT} ] && {
+    list_available_components ${CDH_VERSION};
+    exit 1
+} 
+
+CDH_MAJOR_VERSION=$(echo ${CDH_VERSION} | grep -o "cdh[0-9]")
+case ${CDH_MAJOR_VERSION} in
+    "cdh4") DIST_MASTER_URL=${CDH4_DIST_MASTER_URL}
+            ;;
+    "cdh5") DIST_MASTER_URL=${CDH5_DIST_MASTER_URL}
+            ;;
+    *)      usage
+            echo "Error! Unknown CDH major version: ${CDH_VERSION}. Supported only 'cdh4.x.x' or 'cdh5.x.x'"
+            exit
+esac
+
+install ${COMPONENT} ${DIST_MASTER_URL%%/}/${COMPONENT}-${CDH_VERSION}.tar.gz
+
+
+
