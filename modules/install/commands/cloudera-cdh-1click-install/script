@@ -23,11 +23,12 @@ install() {
             wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_PACKAGE_URL} -O /tmp/${_PACKAGE_FILENAME} && \
             dpkg -i /tmp/${_PACKAGE_FILENAME} && \
             rm /tmp/${_PACKAGE_FILENAME} && \
-    echo "- Adding repository key ${_REPOSITORY_KEY_URL} ... " && \
-            wget -q -O- ${_REPOSITORY_KEY_URL} | apt-key add - && \
     echo "- Updating Ubuntu packages list ... " && \
             apt-get update
     echo "- Installation completed"
+    # echo "- Adding repository key ${_REPOSITORY_KEY_URL} ... " && \
+    #         wget -q -O- ${_REPOSITORY_KEY_URL} | apt-key add - && \
+
 }
 
 [ -z ${CDH_VERSION} ] && {
