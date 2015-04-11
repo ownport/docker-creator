@@ -42,7 +42,7 @@ FROM ubuntu:trusty
 RUN apt-get install -y wget
 
 RUN mkdir -p /deploy/
-RUN wget -qO - https://github.com/ownport/docker-creator/archive/master.tar.gz | tar xvz -C /deploy/
+RUN wget --no-check-certificate -qO - https://github.com/ownport/docker-creator/archive/master.tar.gz | tar -xvz -C /deploy/
 
 RUN /deploy/docker-creator-master/rerun install:oracle-java 7u76:Server-JRE
 RUN /deploy/docker-creator-master/rerun misc:clean
