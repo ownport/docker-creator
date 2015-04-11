@@ -1,5 +1,5 @@
 NAME=cloudera-cdh
-DESCRIPTION="Install Cloudera CDH4/5 components"
+DESCRIPTION="Install Cloudera CDH4/5 component from tar.gz"
 VERSION=0.0.1
 REQUIRES=
 EXTERNALS=
