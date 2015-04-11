@@ -19,8 +19,8 @@ install() {
     _REPOSITORY_KEY_URL=${2}
     _PACKAGE_FILENAME=$(basename ${_PACKAGE_URL})
 
-    echo "- Installation of ${_FILENAME} (${_URL})" && \
-            wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_URL} -O /tmp/${_PACKAGE_FILENAME} && \
+    echo "- Installation of ${_PACKAGE_FILENAME} (${_PACKAGE_URL})" && \
+            wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_PACKAGE_URL} -O /tmp/${_PACKAGE_FILENAME} && \
             dpkg -i /tmp/${_PACKAGE_FILENAME} && \
             rm /tmp/${_PACKAGE_FILENAME} && \
     echo "- Adding repository key ${_REPOSITORY_KEY_URL} ... " && \
