@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+CDH_VERSION=${1}
+COMPONENT=${2}
+
+usage() {
+
+    echo "usage: ./rerun install:cloudera-cdh-1click-install <cdh-version>"
+    echo
+    echo "The list of available CDH versions:"
+    echo "    cdh4-ubuntu-precise" 
+    echo "    cdh5-ubuntu-precise"
+    echo
+}
+
+install() {
+
+    _PACKAGE_URL=${1}
+    _REPOSITORY_KEY_URL=${2}
+    _PACKAGE_FILENAME=$(basename ${_PACKAGE_URL})
+
+    echo "- Installation of ${_FILENAME} (${_URL})" && \
+            wget -c --progress=dot:mega --no-check-certificate --no-cookies ${_URL} -O /tmp/${_PACKAGE_FILENAME} && \
+            dpkg -i /tmp/${_PACKAGE_FILENAME} && \
+            rm /tmp/${_PACKAGE_FILENAME} && \
+    echo "- Adding repository key ${_REPOSITORY_KEY_URL} ... " && \
+            wget -q -O- ${_REPOSITORY_KEY_URL} | apt-key add - && \
+    echo "- Updating Ubuntu packages list ... " && \
+            apt-get update
+    echo "- Installation completed"
+}
+
+[ -z ${CDH_VERSION} ] && {
+    usage
+    exit 1
+}
+
+case ${CDH_VERSION} in
+    "cdh4-ubuntu-precise") 
+        PACKAGE_URL="http://archive.cloudera.com/cdh4/one-click-install/precise/amd64/cdh4-repository_1.0_all.deb"
+        REPOSITORY_KEY_URL="http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh/archive.key"
+        ;;
+    *)  usage
+        exit 1
+        ;;
+esac
+
+ 
+install ${PACKAGE_URL}
+
+
+
