@@ -49,7 +49,7 @@ check_service() {
     local _SERVICENAME=${1}
 
     pgrep -f "java -Dproc_${_SERVICENAME}" 2>&1 > /dev/null && {
-        echo "- The service ${_SERVICENAME} started successfully"
+        echo "- The service ${_SERVICENAME} was started successfully"
     } || {
         echo "Error! The service ${_SERVICENAME} was not started"
         exit 1
@@ -110,7 +110,9 @@ config() {
     start_mapreduce
 
     # Create User Directories 
-    sudo -u hdfs hadoop fs -mkdir /user/${USER} && sudo -u hdfs hadoop fs -chown ${USER} /user/${USER}    
+    echo "- Creating default directory: /user/cloudera/"
+    sudo -u hdfs hadoop fs -mkdir /user/cloudera && \
+        sudo -u hdfs hadoop fs -chown cloudera /user/cloudera/    
 }
 
 export_to() {
