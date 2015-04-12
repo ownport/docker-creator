@@ -1,0 +1,5 @@
+NAME=cdh-deploy
+DESCRIPTION="Module for deployment of Cloudera Hadoop components"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=

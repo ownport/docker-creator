@@ -5,7 +5,7 @@ COMPONENT=${2}
 
 usage() {
 
-    echo "usage: ./rerun install:cloudera-cdh-1click-install <cdh-version>"
+    echo "usage: ./rerun cdh-deploy:1click-install <cdh-version>"
     echo
     echo "The list of available CDH versions:"
     echo "    cdh4-ubuntu-precise" 

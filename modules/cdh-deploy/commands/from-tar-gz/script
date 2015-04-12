@@ -8,7 +8,7 @@ CDH5_DIST_MASTER_URL="http://archive.cloudera.com/cdh5/cdh/5/"
 
 usage() {
 
-    echo "usage: ./rerun install:cloudera-cdh <cdh-version> <component-with-version>"
+    echo "usage: ./rerun cdh-deploy:from-tag-gz <cdh-version> <component-with-version>"
     echo
 }
 
