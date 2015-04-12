@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+usage() {
+
+    echo "usage: ./rerun cdh-deploy:verify-cdh4-pseudo-single-node-base <options>"
+    echo
+}
+
+verify_hadoop_pseudo_conf_package() {
+
+    echo -n "- Verifying the hadoop-0.20-conf-pseudo package: "
+    dpkg -L hadoop-0.20-conf-pseudo 2> /dev/null && {
+        echo "SUCCESS"
+    } || {
+        echo "FAIL"
+        exit 1
+    }
+}
+
+verify_hadoop_pseudo_conf_package

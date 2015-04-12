@@ -1,0 +1,5 @@
+NAME=verify-cdh4-pseudo-single-mode-base
+DESCRIPTION="Verify CDH4 Pseudo-Destributed Mode for Single Node"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=
