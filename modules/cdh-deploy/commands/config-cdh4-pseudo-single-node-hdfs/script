@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+#
+#   TODO: add Kerberos support
+#
+#   Installing CDH4 with MRv1 on a Single Linux Node in Pseudo-distributed mode 
+#   http://www.cloudera.com/content/cloudera/en/documentation/cdh4/latest/CDH4-Quick-Start/cdh4qs_topic_3_2.html
+#
+
+usage() {
+
+    [ -z ${RERUN_COMMAND_DIR} ] && {
+        echo "usage: ${0} <options>"
+    } || {
+        echo "usage: ./rerun cdh-deploy:config-cdh4-pseudo-single-node-hdfs <options>"
+    }
+    echo "    --run:    run basic HDFS configuration of CDH4 Pseudo distributed Single node cluster"
+    [ ! -z ${RERUN_COMMAND_DIR} ] && {
+        echo "    --export-to=<directory>: export config script to <directory>"
+        echo 
+        echo "Note: only one option can be defined"
+    }
+    echo
+}
+
+check_service() {
+
+    local _SERVICENAME=${1}
+
+    pgrep -f "java -Dproc_${_SERVICENAME}" 2>&1 > /dev/null && {
+        echo "- The service ${_SERVICENAME} was started successfully"
+    } || {
+        echo "Error! The service ${_SERVICENAME} was not started"
+        exit 1
+    }
+}
+
+export_to() {
+
+    local _TARGET_DIR=${1}
+
+    [ -z ${RERUN_COMMAND_DIR} ] && {
+        echo "Error! Export can be done only in rerun environment"
+        exit 1
+    }
+
+    echo "- Exporting '${RERUN_COMMAND_DIR}' to '${_TARGET_DIR}'"
+    [ ! -d "${_TARGET_DIR}" ] && {
+        mkdir -p "${_TARGET_DIR}"
+    }
+    cp "${RERUN_COMMAND_DIR%%/}"/* "${_TARGET_DIR%%/}/" 
+
+    echo "- Export completed"
+}
+
+namenode_format() {
+    
+    echo "- NameNode formatting ..."
+    sudo -u hdfs hdfs namenode -format && {
+        echo "- NameNode formatting is completed"
+    } || {
+        echo "Error! NameNode formatting is failed"
+        exit 1
+    }
+}
+
+start_hdfs_service() {
+
+    echo "- Starting HDFS services ..."
+    for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do 
+        sudo service $x start ; 
+    done
+    check_service namenode
+    check_service secondarynamenode
+    check_service datanode
+}
+
+
+config() {
+
+    # Format the NameNode
+    namenode_format
+
+    # Start HDFS
+    start_hdfs_service
+
+    # Create the /tmp directory 
+    sudo -u hdfs hadoop fs -mkdir /tmp && sudo -u hdfs hadoop fs -chmod -R 1777 /tmp
+
+    # Create User Directories 
+    echo "- Creating default directory: /user/cloudera/"
+    sudo -u hdfs hadoop fs -mkdir /user/cloudera && \
+        sudo -u hdfs hadoop fs -chown cloudera /user/cloudera/    
+}
+
+# ==============================================
+#   Main script
+# ----------------------------------------------
+
+[ "$#" -eq 0 ] && {
+    usage
+}
+
+# Get the options
+while [ "$#" -gt 0 ]; do
+    OPT="$1"
+    case "$OPT" in
+        # options without arguments
+        # options with arguments   
+        --run)
+            config
+            exit 0
+            ;;
+        --export-to)
+            export_to "$2"
+            exit 0
+            ;;
+        *)
+            break
+            ;;   
+    esac
+    shift
+done
