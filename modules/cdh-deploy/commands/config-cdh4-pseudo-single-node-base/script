@@ -75,7 +75,7 @@ create_mapreduce_dirs() {
         sudo -u hdfs hadoop fs -chmod 1777 /var/lib/hadoop-hdfs/cache/mapred/mapred/staging && \
         sudo -u hdfs hadoop fs -chown -R mapred /var/lib/hadoop-hdfs/cache/mapred && \
     {
-        echo "The MapReduce system directories are created successfully"
+        echo "- The MapReduce system directories are created successfully"
     } || {
         echo "Error! The MapReduce system directories were not created"    
         exit 1
@@ -85,6 +85,8 @@ create_mapreduce_dirs() {
 start_mapreduce() {
 
     for x in `cd /etc/init.d ; ls hadoop-0.20-mapreduce-*` ; do sudo service $x start ; done
+
+    ps aux | grep java
 
     echo "TODO: check MapReduce services"
 }
@@ -109,7 +111,7 @@ config() {
     start_mapreduce
 
     # Create User Directories 
-    sudo -u hdfs hadoop fs -mkdir /user/$USER  && sudo -u hdfs hadoop fs -chown $USER /user/$USER    
+    sudo -u hdfs hadoop fs -mkdir /user/${USER} && sudo -u hdfs hadoop fs -chown ${USER} /user/${USER}    
 }
 
 export_to() {
