@@ -48,7 +48,7 @@ check_service() {
 
     local _SERVICENAME=${1}
 
-    $(pgrep -f "java -Dproc_${_SERVICENAME}") && {
+    pgrep -f "java -Dproc_${_SERVICENAME}" 2>&1 > /dev/null && {
         echo "- The service ${_SERVICENAME} started successfully"
     } || {
         echo "Error! The service ${_SERVICENAME} was not started"
