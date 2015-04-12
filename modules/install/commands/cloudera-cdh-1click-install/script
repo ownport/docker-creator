@@ -9,7 +9,7 @@ usage() {
     echo
     echo "The list of available CDH versions:"
     echo "    cdh4-ubuntu-precise" 
-    echo "    cdh5-ubuntu-precise"
+    echo "    cdh5-ubuntu-trusty"
     echo
 }
 
