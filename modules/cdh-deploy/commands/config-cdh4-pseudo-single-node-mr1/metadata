@@ -1,0 +1,5 @@
+NAME=config-cdh4-pseudo-single-mode-mr1
+DESCRIPTION="Configure MR1 for CDH4 Pseudo-Destributed Mode for Single Node"
+VERSION=0.0.1
+REQUIRES=
+EXTERNALS=
